@@ -40,6 +40,13 @@ define(function (require, exports, module) {
     /** @type {Array.<{ id:string, name:string }>} */
     var _commandList;
     
+    /**
+     * Editor that should be focused when executing the command (that had focus before opening search bar)
+     * @type {Editor}
+     */
+    var whichEditor;
+    
+    
     function ensureCommandList() {
         if (_commandList) {
             return;
@@ -93,28 +100,20 @@ define(function (require, exports, module) {
         
         query = query.substr(1);  // lose the "?" prefix
         
-        // TODO: filter out disabled commands?
-        
+        // Filter and rank how good each match is
         var filteredList = $.map(_commandList, function (commandInfo) {
-            // Filter on search text
-            var name = commandInfo.name;
-
-            if (name.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-                return commandInfo;
-            }
             
-        }).sort(function (a, b) {
-            // Simple alphabetic sort of result list
-            a = a.name.toLowerCase();
-            b = b.name.toLowerCase();
-            if (a > b) {
-                return -1;
-            } else if (a < b) {
-                return 1;
-            } else {
-                return 0;
+            // TODO: filter out disabled commands?
+            
+            var searchResult = QuickOpen.stringMatch(commandInfo.name, query);
+            if (searchResult) {
+                searchResult.id = commandInfo.id;
             }
+            return searchResult;
         });
+        
+        // Sort based on ranking & basic alphabetical order
+        QuickOpen.basicMatchSort(filteredList);
 
         return filteredList;
     }
@@ -129,11 +128,9 @@ define(function (require, exports, module) {
         }
     }
 
-    var whichEditor;
-    
     /**
      * TODO: selectedItem is currently a <LI> item from smart auto complete container. It should just be data
-     * @param {HTMLLIElement} selectedItem
+     * @param {SearchResult} selectedItem
      */
     function itemSelect(selectedItem) {
         // Many commands are focus-sensitive, so we have to carefully make sure that focus is restored to
@@ -149,18 +146,17 @@ define(function (require, exports, module) {
             
             // One more timeout to wait for focus to move to that editor
             setTimeout(function () {
-                CommandManager.execute($(selectedItem).attr("data-id"));
+                CommandManager.execute(selectedItem.id);
             }, 0);
         }, 0);
     }
     
     
     function resultFormatter(item, query) {
-        // Based on QuickOpen.defaultResultsFormatter(), but assuming "?" instead of "@"
-        // And with some changes (noted) at very bottom
-        query = query.slice(query.indexOf("?") + 1, query.length);
+        // Similar to QuickOpen.defaultResultsFormatter(), with added text showing keybinding
+        query = query.substr(1);  // lose the "?" prefix
         
-        var name = item.name;
+        var name = item.label;
 
         // Escape both query and item so the replace works properly below
         query = StringUtils.htmlEscape(query);
@@ -168,7 +164,7 @@ define(function (require, exports, module) {
 
         var displayName;
         if (query.length > 0) {
-            // make the users query bold within the item's text
+            // make query text bold within the item's label
             displayName = name.replace(
                 new RegExp(StringUtils.regexEscape(query), "gi"),
                 "<strong>$&</strong>"
@@ -177,14 +173,14 @@ define(function (require, exports, module) {
             displayName = name;
         }
         
-        // DIFFERS from defaultResultsFormatter(): stash id and display shortcut
+        // Show shortcut on right of item
         // TODO: display multiple shortcuts
         // TODO: display which menu it's in also
         // TODO: display checkmark if command.getChecked() is true
         var shortcuts = KeyBindingManager.getKeyBindings(item.id);
         var shortcut = shortcuts.length ? KeyBindingManager.formatKeyDescriptor(shortcuts[0].displayKey) : "";
 
-        return "<li data-id='" + item.id + "'>" + displayName + "<span style='float:right'>" + shortcut + "</span></li>";
+        return "<li>" + displayName + "<span style='float:right'>" + shortcut + "</span></li>";
     }
     
     
@@ -202,27 +198,19 @@ define(function (require, exports, module) {
         }
     );
     
-    function handleSearchCommands() {
+    function beginSearchForCommands() {
         whichEditor = EditorManager.getFocusedEditor();
         
-        // Open Quick Open menu
-        CommandManager.execute(Commands.NAVIGATE_QUICK_OPEN);
-        
-        // Prepopulate with "?" prefix to run it in our mode
-        $("input#quickOpenSearch").val("?");
-        
-        // TODO: would be cleaner to just do:
-        //QuickOpen.beginQuickOpen("?");
-        // Assuming QuickOpen has an API like this:
-        //exports.beginQuickOpen = function (prefix, initialString) { doSearch(prefix, initialString); };
+        // Begin Quick Open in our search mode
+        QuickOpen.beginSearch("?");
     }
     
 
     // Register command as shortcut to launch this Quick Open mode
-    var SEARCH_COMMAND_ID = "pflynn.findCommand";
-    CommandManager.register("Search Commands", SEARCH_COMMAND_ID, handleSearchCommands);
+    var SEARCH_COMMAND_ID = "pflynn.searchCommands";
+    CommandManager.register("Search Commands", SEARCH_COMMAND_ID, beginSearchForCommands);
     
-    var menu = Menus.getMenu(Menus.AppMenuBar.NAVIGATE_MENU);
-    menu.addMenuDivider();
-    menu.addMenuItem(SEARCH_COMMAND_ID, {key: "Ctrl-Alt-/", displayKey: "Ctrl-Alt-?"});
+    var menu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU);
+    menu.addMenuDivider(Menus.FIRST);
+    menu.addMenuItem(SEARCH_COMMAND_ID, {key: "Ctrl-Alt-/", displayKey: "Ctrl-Alt-?"}, Menus.FIRST);
 });
