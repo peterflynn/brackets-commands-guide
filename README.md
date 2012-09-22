@@ -11,7 +11,7 @@ Use the keyboard to quickly search for commands and run them:
 3. Use arrow keys to select the one you want (or skip this to use the topmost result)
 4. Press Enter to run it
 
-If you've ever used Quicksilver on Mac, or Sublime's Command Palette, or Eclipse's Quick Access (Ctrl+3) -- this is the same deal.
+If you've ever used Quicksilver on Mac, or Sublime's Command Palette (Ctrl+Shift+P), or Eclipse's Quick Access (Ctrl+3) -- this is the same deal.
 
 Note that the list may include some commands you can't find anywhere in the menus -- some commands in Brackets are available only via keyboard shortcuts.
 

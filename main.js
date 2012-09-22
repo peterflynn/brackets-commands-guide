@@ -72,7 +72,8 @@ define(function (require, exports, module) {
             } else {
                 // Is it in the menu bar?
                 menuIds.forEach(function (menuId) {
-                    var menuItemId = Menus.getMenu(menuId)._getMenuItemId(id);
+                    var menu = Menus.getMenu(menuId);
+                    var menuItemId = menu && menu._getMenuItemId(id);
                     if (Menus.getMenuItem(menuItemId)) {
                         noArgsOk = true;
                     }
@@ -92,8 +93,8 @@ define(function (require, exports, module) {
     }
     
     /**
-     * @param {string} query What the user is searching for
-     * @return {Array.<string>} sorted and filtered results that match the query
+     * @param {string} query User query/filter string
+     * @return {Array.<string>} Sorted and filtered results that match the query
      */
     function search(query) {
         ensureCommandList();
@@ -119,7 +120,7 @@ define(function (require, exports, module) {
     }
 
     /**
-     * @param {string} query What the user is searching for
+     * @param {string} query
      * @return {boolean} true if this plugin wants to provide results for this query
      */
     function match(query) {
@@ -129,7 +130,6 @@ define(function (require, exports, module) {
     }
 
     /**
-     * TODO: selectedItem is currently a <LI> item from smart auto complete container. It should just be data
      * @param {SearchResult} selectedItem
      */
     function itemSelect(selectedItem) {
@@ -152,6 +152,11 @@ define(function (require, exports, module) {
     }
     
     
+    /**
+     * @param {SearchResult} fileEntry
+     * @param {string} query
+     * @return {string}
+     */
     function resultFormatter(item, query) {
         // Similar to QuickOpen.defaultResultsFormatter(), with added text showing keybinding
         query = query.substr(1);  // lose the "?" prefix
