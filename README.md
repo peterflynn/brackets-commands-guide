@@ -1,9 +1,5 @@
 Brackets Commands Guide
 =======================
-An extension for [Brackets](https://github.com/adobe/brackets/), a new open-source code editor for the web.
-
-_**Note:** This extension requires Brackets Sprint 14 or newer._
-
 Use the keyboard to quickly search for commands and run them:
 
 1. Press Cmd+Alt+? (Ctrl+Alt+? on Win)
@@ -18,13 +14,17 @@ Note that the list may include some commands you can't find anywhere in the menu
 
 How to Install
 ==============
+Brackets Commands Guide is an extension for [Brackets](https://github.com/adobe/brackets/), a new open-source code editor for the web.
+
 To use Brackets Commands Guide:
 
-1. [Download the ZIP](https://github.com/peterflynn/brackets-commands-guide/downloads) and unzip it; or clone this repo on GitHub
-2. Place the folder so the structure is: `brackets/src/extensions/user/brackets-commands-guide/main.js`
-3. Launch Brackets!
+1. Choose _File > Install Extension_
+2. Enter this URL: _https://github.com/peterflynn/brackets-commands-guide_
+3. Click _Install_!
 
 
-License
-=======
+### License
 MIT-licensed -- see `main.js` for details.
+
+### Compatibility
+Brackets Sprint 16 or newer (or Adobe Edge Code Preview 2 or newer).

@@ -153,30 +153,14 @@ define(function (require, exports, module) {
     
     
     /**
+     * Similar to default formatting, but with added text showing keybinding
+     * 
      * @param {SearchResult} fileEntry
      * @param {string} query
      * @return {string}
      */
     function resultFormatter(item, query) {
-        // Similar to QuickOpen.defaultResultsFormatter(), with added text showing keybinding
-        query = query.substr(1);  // lose the "?" prefix
-        
-        var name = item.label;
-
-        // Escape both query and item so the replace works properly below
-        query = StringUtils.htmlEscape(query);
-        name = StringUtils.htmlEscape(name);
-
-        var displayName;
-        if (query.length > 0) {
-            // make query text bold within the item's label
-            displayName = name.replace(
-                new RegExp(StringUtils.regexEscape(query), "gi"),
-                "<strong>$&</strong>"
-            );
-        } else {
-            displayName = name;
-        }
+        var displayName = QuickOpen.highlightMatch(item);
         
         // Show shortcut on right of item
         // TODO: display multiple shortcuts
@@ -193,7 +177,8 @@ define(function (require, exports, module) {
     QuickOpen.addQuickOpenPlugin(
         {
             name: "Commands",
-            fileTypes: [],  // empty array = all file types
+            languageIds: [],  // empty array = all file types  (Sprint 23+)
+            fileTypes:   [],  // (< Sprint 23)
             done: done,
             search: search,
             match: match,
