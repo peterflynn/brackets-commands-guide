@@ -1,6 +1,8 @@
 {
     "name": "pflynn.brackets.commands.guide",
     "title": "Brackets Commands Quick Search",
+    "homepage": "https://github.com/peterflynn/brackets-commands-guide",
+    "author": "Peter Flynn (https://github.com/peterflynn)",
     "version": "1.0.3",
     "engines": { "brackets": ">=0.16" },
     "description": "Search and execute commands by typing part of their name, similar to Quicksilver (or Sublime's Ctrl+Shift+P or Eclipse's Ctrl+3). Press Ctrl+Alt+? (Cmd+Alt+? on Mac) to launch."
