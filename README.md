@@ -1,5 +1,5 @@
-Brackets Commands Guide
-=======================
+Brackets Commands Quick Search
+==============================
 Use the keyboard to quickly search for commands and run them:
 
 1. Press Cmd+Alt+? (Ctrl+Alt+? on Win)
@@ -14,12 +14,12 @@ Note that the list may include some commands you can't find anywhere in the menu
 
 How to Install
 ==============
-Brackets Commands Guide is an extension for [Brackets](https://github.com/adobe/brackets/), a new open-source code editor for the web.
+Brackets Commands Quick Search is an extension for [Brackets](https://github.com/adobe/brackets/), a new open-source code editor for the web.
 
-To use Brackets Commands Guide:
+To install extensions:
 
-1. Choose _File > Install Extension_
-2. Enter this URL: _https://github.com/peterflynn/brackets-commands-guide_
+1. Choose _File > Extension Manager_ and select the _Available_ tab
+2. Search for this extension
 3. Click _Install_!
 
 
