@@ -202,5 +202,5 @@ define(function (require, exports, module) {
     
     var menu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU);
     menu.addMenuDivider(Menus.FIRST);
-    menu.addMenuItem(SEARCH_COMMAND_ID, {key: "Ctrl-Alt-/", displayKey: "Ctrl-Alt-?"}, Menus.FIRST);
+    menu.addMenuItem(SEARCH_COMMAND_ID, {key: "Ctrl-Shift-/", displayKey: "Ctrl-Shift-?"}, Menus.FIRST);
 });
