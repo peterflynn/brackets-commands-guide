@@ -96,17 +96,19 @@ define(function (require, exports, module) {
      * @param {string} query User query/filter string
      * @return {Array.<string>} Sorted and filtered results that match the query
      */
-    function search(query) {
+    function search(query, matcher) {
         ensureCommandList();
         
         query = query.substr(1);  // lose the "?" prefix
+        
+        var stringMatch = (matcher && matcher.match) ? matcher.match.bind(matcher) : QuickOpen.stringMatch;
         
         // Filter and rank how good each match is
         var filteredList = $.map(_commandList, function (commandInfo) {
             
             // TODO: filter out disabled commands?
             
-            var searchResult = QuickOpen.stringMatch(commandInfo.name, query);
+            var searchResult = stringMatch(commandInfo.name, query);
             if (searchResult) {
                 searchResult.id = commandInfo.id;
             }
@@ -202,5 +204,8 @@ define(function (require, exports, module) {
     
     var menu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU);
     menu.addMenuDivider(Menus.FIRST);
-    menu.addMenuItem(SEARCH_COMMAND_ID, {key: "Ctrl-Alt-/", displayKey: "Ctrl-Alt-?"}, Menus.FIRST);
+    menu.addMenuItem(SEARCH_COMMAND_ID, [
+        {key: "Ctrl-Alt-/", displayKey: "Ctrl-Alt-?", platform: "win"},
+        {key: "Ctrl-Cmd-/", displayKey: "Ctrl-Cmd-?", platform: "mac"}
+    ], Menus.FIRST);
 });
