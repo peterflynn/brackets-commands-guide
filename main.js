@@ -83,6 +83,7 @@ define(function (require, exports, module) {
                 _commandList.push({
                     id: id,
                     name: CommandManager.get(id).getName()
+                    // (getName() undefined for CommandManager.registerInternal(), but those commands should have been filtered out above anyway)
                 });
             }
         });
@@ -179,6 +180,7 @@ define(function (require, exports, module) {
     QuickOpen.addQuickOpenPlugin(
         {
             name: "Commands",
+            label: "Commands",  // ignored before Sprint 34
             languageIds: [],  // empty array = all file types  (Sprint 23+)
             fileTypes:   [],  // (< Sprint 23)
             done: done,
