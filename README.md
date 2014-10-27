@@ -2,7 +2,7 @@ Brackets Commands Quick Search
 ==============================
 Use the keyboard to quickly search for commands and run them:
 
-1. Press Ctrl+Alt+? (⌃⌘? on Mac)
+1. Press Ctrl+Shift+P (⇧⌘P on Mac)
    <br>(or invoke regular Quick Open and type a "?")
 2. Start typing (part of) the name of a command
 3. Use arrow keys to select the one you want (or skip this to use the topmost result)
