@@ -5,5 +5,5 @@
     "author": "Peter Flynn",
     "version": "1.0.5",
     "engines": { "brackets": ">=0.16" },
-    "description": "Search and execute commands by typing part of their name, similar to Quicksilver (or Sublime's Ctrl+Shift+P 'Command Palette' or Eclipse's Ctrl+3). Press Ctrl+Alt+? (\u2303\u2318? on Mac) to launch."
+    "description": "Search and execute commands by typing part of their name, similar to Quicksilver (or Sublime's Ctrl+Shift+P 'Command Palette' or Eclipse's Ctrl+3). Press Ctrl+Shift+P (\u21E7\u2318P on Mac) to launch."
 }

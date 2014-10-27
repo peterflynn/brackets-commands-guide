@@ -206,8 +206,5 @@ define(function (require, exports, module) {
 
     var menu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU);
     menu.addMenuDivider(Menus.FIRST);
-    menu.addMenuItem(SEARCH_COMMAND_ID, [
-        {key: "Ctrl-Alt-/", displayKey: "Ctrl-Alt-?", platform: "win"},
-        {key: "Ctrl-Cmd-/", displayKey: "Ctrl-Cmd-?", platform: "mac"}
-    ], Menus.FIRST);
+    menu.addMenuItem(SEARCH_COMMAND_ID, {key: "Ctrl-Shift-P", displayKey: "Ctrl-Shift-P"}, Menus.FIRST);
 });
