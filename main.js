@@ -59,8 +59,8 @@ define(function (require, exports, module) {
         
         // Get list of all top-level menu bar menus
         // Ignore context menus since it seems less safe to assume those commands can be run in isolation
-        var menuIds = $.map(Menus.AppMenuBar, function (menuConstVal, menuConstName) {
-            return menuConstVal;
+        var menuIds = $.map(Menus.getAllMenus(), function (menuItem, menuId) {
+            return menuId;
         });
         
         // Filter command list accordingly
@@ -76,6 +76,7 @@ define(function (require, exports, module) {
                     var menuItemId = menu && menu._getMenuItemId(id);
                     if (Menus.getMenuItem(menuItemId)) {
                         noArgsOk = true;
+                        return;
                     }
                 });
             }
